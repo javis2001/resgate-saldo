@@ -389,5 +389,35 @@ fbq('track', 'PageView');
         })();
     </script>
 
+<script>
+function irParaCheckout(urlCheckout) {
+  const checkout = new URL(urlCheckout, window.location.href);
+  const params = new URLSearchParams(window.location.search);
+
+  const parametros = [
+    'utm_source',
+    'utm_campaign',
+    'utm_medium',
+    'utm_content',
+    'utm_term',
+    'fbclid',
+    'src',
+    'sck'
+  ];
+
+  parametros.forEach(function(param) {
+    const valor = params.get(param);
+    if (valor) {
+      checkout.searchParams.set(param, valor);
+    }
+  });
+
+  if (typeof fbq === 'function') {
+    fbq('track', 'InitiateCheckout');
+  }
+
+  window.location.href = checkout.toString();
+}
+</script>
 
 </body></html>
